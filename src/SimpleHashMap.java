@@ -182,10 +182,11 @@ public class SimpleHashMap<K extends Comparable<K>, V> implements
 		K floorKey = null;
 		for (int i = 0; i < hashMap.length; i++)
 		{
-			LinkedList<Entry<K,V>> curr = hashMap[hash(key)];
+			LinkedList<Entry<K, V>> curr = hashMap[hash(key)];
 			for (int j = 0; j < curr.size(); j++)
 			{
-				if (curr.get(i).getKey().compareTo(key) <= 0 && curr.get(i).getKey().compareTo(floorKey) > 0)
+				if (curr.get(i).getKey().compareTo(key) <= 0
+						&& curr.get(i).getKey().compareTo(floorKey) > 0)
 				{
 					floorKey = curr.get(i).getKey();
 				}
