@@ -214,13 +214,24 @@ public class SimpleHashMap<K extends Comparable<K>, V> implements
 		K floorKey = null;
 		for (int i = 0; i < hashMap.length; i++)
 		{
-			LinkedList<Entry<K, V>> curr = hashMap[hash(key)];
-			for (int j = 0; j < curr.size(); j++)
+			LinkedList<Entry<K, V>> curr = hashMap[i];
+			if (curr != null)
 			{
-				if (curr.get(i).getKey().compareTo(key) <= 0
-						&& curr.get(i).getKey().compareTo(floorKey) > 0)
+				for (int j = 0; j < curr.size(); j++)
 				{
-					floorKey = curr.get(i).getKey();
+					if (floorKey == null)
+					{
+						floorKey = curr.get(j).getKey();
+					}
+					if (curr.get(j).getKey().compareTo(key) <= 0
+							&& curr.get(j).getKey().compareTo(floorKey) > 0)
+					{
+						floorKey = curr.get(j).getKey();
+					}
+					else
+					{
+						floorKey = null;
+					}
 				}
 			}
 

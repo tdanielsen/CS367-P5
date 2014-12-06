@@ -23,10 +23,9 @@ public class TesterClass
 		System.out.println(hash.size());
 		hash.put(2, "monkey");
 		hash.put(2, "Gut");
-		hash.put(1, "Bot");
+		hash.put(3, "Bot");
 		hash.put(42, "moot");
-		System.out.println(hash.floorKey(2));
-		
+		System.out.println(hash.floorKey(1));
 
 	}
 
