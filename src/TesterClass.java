@@ -2,6 +2,7 @@
 public class TesterClass
 {
 
+	@SuppressWarnings("unchecked")
 	public static void main(String[] args)
 	{
 		int[] test = {1,2,3,4,5,7};
@@ -14,6 +15,10 @@ public class TesterClass
 		{
 			System.out.println(test[i]);
 		}
+		
+		SimpleHashMap hash = new SimpleHashMap();
+		System.out.println(hash.size());
+		hash.put(2, "monkey");
 
 	}
 

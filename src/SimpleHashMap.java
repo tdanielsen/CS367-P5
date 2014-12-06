@@ -44,6 +44,11 @@ public class SimpleHashMap<K extends Comparable<K>, V> implements
 		}
 		return hashIndex;
 	}
+	
+	public int size()
+	{
+		return hashMap.length;
+	}
 
 	/**
 	 * Returns the value to which the specified key is mapped, or null if this
@@ -99,6 +104,9 @@ public class SimpleHashMap<K extends Comparable<K>, V> implements
 			throw new NullPointerException();
 		}
 		Entry<K,V> newEntry = new Entry<K,V>(key, value);
+		System.out.println(hash(key));
+		System.out.println(newEntry.getKey());
+		System.out.println(newEntry.getValue());
 		if (hashMap[hash(key)] == null)
 		{
 			hashMap[hash(key)].add(newEntry);
