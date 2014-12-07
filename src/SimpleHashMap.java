@@ -180,7 +180,6 @@ public class SimpleHashMap<K extends Comparable<K>, V> implements
 		LinkedList<Entry<K,V>> curr = hashMap[hash(key)];
 		if (curr != null)
 		{
-			System.out.println("Remove " + hash(key));
 			for (int i = 0; i < curr.size(); i++)
 			{
 				if (curr.get(i).getKey().equals(key))
@@ -226,7 +225,12 @@ public class SimpleHashMap<K extends Comparable<K>, V> implements
 					{
 						floorKey = curr.get(j).getKey();
 					}
-					if (curr.get(j).getKey().compareTo(key) <= 0
+					if (curr.get(j).getKey().compareTo(key) == 0)
+					{
+						floorKey = curr.get(j).getKey();
+						return floorKey;
+					}
+					if (curr.get(j).getKey().compareTo(key) < 0
 							&& curr.get(j).getKey().compareTo(floorKey) > 0)
 					{
 						floorKey = curr.get(j).getKey();
@@ -237,7 +241,6 @@ public class SimpleHashMap<K extends Comparable<K>, V> implements
 					}
 				}
 			}
-
 		}
 		return floorKey;
 	}
