@@ -23,7 +23,7 @@ public class SimpleHashMap<K extends Comparable<K>, V> implements
 	private double lf = 0.75;
 	private int tableSize;
 	private LinkedList<Entry<K,V>>[] hashMap;
-	private int numEntries;
+	private double numEntries;
 	private int nextTableSize;
 	
 	@SuppressWarnings("unchecked")
@@ -37,10 +37,10 @@ public class SimpleHashMap<K extends Comparable<K>, V> implements
 
 	private int hash(K k)
 	{
-		int hashIndex = k.hashCode() % tableSize;
+		int hashIndex = (k.hashCode() % tableSize) - 1;
 		if (hashIndex < 0)
 		{
-			hashIndex = hashIndex + tableSize;
+			hashIndex = hashIndex + (tableSize - 1);
 		}
 		return hashIndex;
 	}
@@ -68,9 +68,10 @@ public class SimpleHashMap<K extends Comparable<K>, V> implements
 		{
 			throw new NullPointerException();
 		}
-		if (hashMap[hash(key)] != null)
+		int hashKey = hash(key);
+		LinkedList<Entry<K,V>> curr = hashMap[hashKey];
+		if (curr != null)
 		{
-			LinkedList<Entry<K,V>> curr = hashMap[hash(key)];
 			for (int i = 0; i < curr.size(); i++)
 			{
 				if (curr.get(i).getKey().equals(key))
@@ -104,23 +105,23 @@ public class SimpleHashMap<K extends Comparable<K>, V> implements
 			throw new NullPointerException();
 		}
 		Entry<K,V> newEntry = new Entry<K,V>(key, value);
-
 		V oldValue = null;
-		if (hashMap[hash(key)] == null)
+		int hashKey = hash(key);
+		if (hashMap[hashKey] == null)
 		{
 			LinkedList<Entry<K,V>> entries = new LinkedList<Entry<K,V>>();
-			hashMap[hash(key)] = entries;
-			hashMap[hash(key)].add(newEntry);
-			System.out.println("Put " + hash(key));
+			hashMap[hashKey] = entries;
+			entries.add(newEntry);
+			System.out.println("Put " + key);
 			numEntries++;
 		}
-		else if(hashMap[hash(key)].size() == 0)
+		else if(hashMap[hashKey].size() == 0)
 		{
-			hashMap[hash(key)].add(newEntry);
+			hashMap[hashKey].add(newEntry);
 		}
 		else
 		{
-			LinkedList<Entry<K,V>> curr = hashMap[hash(key)];
+			LinkedList<Entry<K,V>> curr = hashMap[hashKey];
 			for (int i = 0; i < curr.size(); i++)
 			{
 				if (curr.get(i).getKey().equals(key))
@@ -130,9 +131,10 @@ public class SimpleHashMap<K extends Comparable<K>, V> implements
 					return oldValue;
 				}
 				curr.add(newEntry);
-				
 			}
+			//curr.add(newEntry);
 		}
+		System.out.println("Migrate? " + numEntries/tableSize + ". Needed: " + lf);
 		if (numEntries/tableSize >= lf)
 		{
 			
@@ -144,13 +146,18 @@ public class SimpleHashMap<K extends Comparable<K>, V> implements
 				{
 					for (int j = 0; j < hashMap[i].size(); j++)
 					{
+						LinkedList<Entry<K,V>> entries = new LinkedList<Entry<K,V>>();
 						Entry<K,V> migrate = hashMap[i].get(j);
-						tempArray[hash(migrate.getKey())].add(migrate);
+						int index = hash(migrate.getKey());
+						System.out.println("Migrating " + migrate.getKey());
+						tempArray[index] = entries;
+						entries.add(migrate);
 					}
 				}
 			}
-			//System.arraycopy(hashMap, 0, tempArray, 0, hashMap.length);
+			System.out.println("Done migrating");
 			hashMap = tempArray;
+			tableSize = tableSizes[nextTableSize];
 			nextTableSize++;
 		}
 		return oldValue;
