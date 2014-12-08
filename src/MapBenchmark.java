@@ -9,12 +9,16 @@ import java.io.IOException;
 
 public class MapBenchmark<K, V>
 {
-	private long min = -1;
-	private long max = 0;
-	private double totalTime = 0;
+	private double totalPutTime = 0;
+	private double totalGetTime = 0;
+	private double totalFloorKeyTime = 0;
+	private double totalRemoveTime = 0;
 	private long totalInput = 0;
 	private double sum = 0;
-	private ArrayList<Long> timeTable = new ArrayList<Long>();
+	private ArrayList<Long> timePutTable = new ArrayList<Long>();
+	private ArrayList<Long> timeGetTable = new ArrayList<Long>();
+	private ArrayList<Long> timeFloorKeyTable = new ArrayList<Long>();
+	private ArrayList<Long> timeRemoveTable = new ArrayList<Long>();
 	private SimpleMapADT map;
 	private ArrayList<K> keyList = new ArrayList<K>();
 	
@@ -31,18 +35,13 @@ public class MapBenchmark<K, V>
 		String fileName = args[0];
 		MapBenchmark hashBenchmark = new MapBenchmark(hash);
 		MapBenchmark treeBenchmark = new MapBenchmark(tree);
-		hashBenchmark.put(fileName, numIter, "HashMap", "put");
-		hashBenchmark.get(fileName, hash, numIter, "HashMap", "get");
-		hashBenchmark.floorKey(fileName, hash, numIter, "HashMap", "floorKey");
-		hashBenchmark.remove(fileName, hash, numIter, "HashMap", "remove");
-		treeBenchmark.put(fileName, numIter, "TreeMap", "put");
-		treeBenchmark.get(fileName, tree, numIter, "TreeMap", "get");
-		treeBenchmark.floorKey(fileName, tree, numIter, "TreeMap", "floorKey");
-		treeBenchmark.remove(fileName, tree, numIter, "TreeMap", "remove");
+		hashBenchmark.operation(fileName, numIter, "HashMap", "put");
+
+		//treeBenchmark.operation(fileName, numIter, "TreeMap", "put");
+
 	}
-	private void put(String fileName, int numIter, String mapType, String op) throws IOException
+	private void operation(String fileName, int numIter, String mapType, String op) throws IOException
 	{
-		min = -1;
 		for (int ndx = 0; ndx < numIter; ndx++)
 		{
 			// Basic progress bar
@@ -53,199 +52,91 @@ public class MapBenchmark<K, V>
 			//	map = new SimpleHashMap();
 				BufferedReader in = new BufferedReader(new FileReader(fileName));
 				String line;
-				long startTime = System.currentTimeMillis();;
+				
 				// Goes through each line
 				while ((line = in.readLine()) != null)
 				{
 					StringTokenizer token = new StringTokenizer(line, " ");
 					Object key = token.nextElement();
 					Object value = token.nextElement();
+					if (ndx == 0)
+					{
+						keyList.add((K) key);
+					}
+					long startTime = System.currentTimeMillis();
 					map.put((Comparable) key, value);
-					keyList.add((K) key);
-					
+					long elapsed = System.currentTimeMillis() - startTime;
+					timePutTable.add(elapsed);
+					totalPutTime = totalPutTime + elapsed;
 					totalInput++;
 				}
-				long elapsed = System.currentTimeMillis() - startTime;
-//				System.out.println("Elapsed time: " + elapsed);
-				timeTable.add(elapsed);
-				if (elapsed > max)
-				{
-					max = elapsed;
-				}
-				if (min == -1)
-				{
-					min = elapsed;
-				}
-				if (elapsed < min)
-				{
-					min = elapsed;
-				}
-				totalTime = totalTime + elapsed;
 				in.close();
 			}
 			catch(FileNotFoundException e)
 			{
 				System.out.println("File: " + fileName + " Not Found.");
 			}
-		}
-		for (int i = 0; i < timeTable.size(); i++)
-		{
-			sum += Math.pow((timeTable.get(i) - totalTime/(totalInput/numIter)), 2);
-		}
-		String mean = String.format("%.3f", totalTime/(totalInput/numIter));
-		String stdDiv = String.format("%.3f", (Math.sqrt((sum/(totalInput/numIter)))));
-		outPrint(mapType, op, min, max, mean, stdDiv);
-	}
-	private void get(String fileName, SimpleMapADT map, int numIter, String mapType, String op) throws IOException
-	{
-		min = -1;
-		for (int ndx = 0; ndx < numIter; ndx++)
-		{
-			
-			// Basic progress bar
-			System.out.print(String.format("%.2f", 100 * ndx / (float) numIter)
-					+ "% done \r");
-			
-				
+			//Iterate over all keys in keyList and measure their get times
 			for (int i = 0; i < keyList.size(); i++)
 			{
 				long startTime = System.currentTimeMillis();
 				map.get((Comparable) keyList.get(i));
 				long elapsed = System.currentTimeMillis() - startTime;
-//					System.out.println("Elapsed time: " + elapsed);
-				timeTable.add(elapsed);
-				if (elapsed > max)
-				{
-					max = elapsed;
-				}
-				if (min == -1)
-				{
-					min = elapsed;
-				}
-				if (elapsed < min)
-				{
-					min = elapsed;
-				}
-				totalTime = totalTime + elapsed;
+				timeGetTable.add(elapsed);
+				totalGetTime = totalGetTime + elapsed;
 			}
-
-		}
-		for (int i = 0; i < timeTable.size(); i++)
-		{
-			sum += Math.pow((timeTable.get(i) - totalTime/(totalInput/numIter)), 2);
-		}
-		String mean = String.format("%.3f", totalTime/(totalInput/numIter));
-		String stdDiv = String.format("%.3f", (Math.sqrt((sum/(totalInput/numIter)))));
-		outPrint(mapType, op, min, max, mean, stdDiv);
-	}
-	private void floorKey(String fileName, SimpleMapADT map, int numIter, String mapType, String op) throws IOException
-	{
-		min = -1;
-		for (int ndx = 0; ndx < numIter; ndx++)
-		{
-			// Basic progress bar
-			System.out.print(String.format("%.2f", 100 * ndx / (float) numIter)
-					+ "% done \r");
-			try
+			//Iterate over all keys in keyList and measure their floorKey times
+			for (int i = 0; i < keyList.size(); i++)
 			{
-			//	map = new SimpleHashMap();
-				BufferedReader in = new BufferedReader(new FileReader(fileName));
-				String line;
-				long startTime = System.currentTimeMillis();;
-				// Goes through each line
-				while ((line = in.readLine()) != null)
-				{
-					StringTokenizer token = new StringTokenizer(line, " ");
-					Object key = token.nextElement();
-					map.floorKey((Comparable) key);
-					token.nextElement();
-				}
+				long startTime = System.currentTimeMillis();
+				map.floorKey((Comparable) keyList.get(i));
 				long elapsed = System.currentTimeMillis() - startTime;
-//				System.out.println("Elapsed time: " + elapsed);
-				timeTable.add(elapsed);
-				if (elapsed > max)
-				{
-					max = elapsed;
-				}
-				if (min == -1)
-				{
-					min = elapsed;
-				}
-				if (elapsed < min)
-				{
-					min = elapsed;
-				}
-				totalTime = totalTime + elapsed;
-				in.close();
+				timeFloorKeyTable.add(elapsed);
+				totalFloorKeyTime = totalFloorKeyTime + elapsed;
 			}
-			catch(FileNotFoundException e)
+			//Iterate over all keys in keyList and measure their remove times
+			for (int i = 0; i < keyList.size(); i++)
 			{
-				System.out.println("File: " + fileName + " Not Found.");
-			}
-		}
-		for (int i = 0; i < timeTable.size(); i++)
-		{
-			sum += Math.pow((timeTable.get(i) - totalTime/(totalInput/numIter)), 2);
-		}
-		String mean = String.format("%.3f", totalTime/(totalInput/numIter));
-		String stdDiv = String.format("%.3f", (Math.sqrt((sum/(totalInput/numIter)))));
-		outPrint(mapType, op, min, max, mean, stdDiv);
-	}
-	private void remove(String fileName, SimpleMapADT map, int numIter, String mapType, String op) throws IOException
-	{
-		min = -1;
-		for (int ndx = 0; ndx < numIter; ndx++)
-		{
-			// Basic progress bar
-			System.out.print(String.format("%.2f", 100 * ndx / (float) numIter)
-					+ "% done \r");
-			try
-			{
-			//	map = new SimpleHashMap();
-				BufferedReader in = new BufferedReader(new FileReader(fileName));
-				String line;
-				long startTime = System.currentTimeMillis();;
-				// Goes through each line
-				while ((line = in.readLine()) != null)
-				{
-					StringTokenizer token = new StringTokenizer(line, " ");
-					Object key = token.nextElement();
-					map.remove((Comparable) key);
-					token.nextElement();
-				}
+				long startTime = System.currentTimeMillis();
+				map.remove((Comparable) keyList.get(i));
 				long elapsed = System.currentTimeMillis() - startTime;
-//				System.out.println("Elapsed time: " + elapsed);
-				timeTable.add(elapsed);
-				if (elapsed > max)
-				{
-					max = elapsed;
-				}
-				if (min == -1)
-				{
-					min = elapsed;
-				}
-				if (elapsed < min)
-				{
-					min = elapsed;
-				}
-				totalTime = totalTime + elapsed;
-				in.close();
-			}
-			catch(FileNotFoundException e)
-			{
-				System.out.println("File: " + fileName + " Not Found.");
+				timeRemoveTable.add(elapsed);
+				totalRemoveTime = totalRemoveTime + elapsed;
 			}
 		}
+		outPrint(mapType, "put", totalPutTime, numIter, timePutTable);
+		outPrint(mapType, "get", totalGetTime, numIter, timeGetTable);
+		outPrint(mapType, "floorKey", totalFloorKeyTime, numIter, timeFloorKeyTable);
+		outPrint(mapType, "remove", totalRemoveTime, numIter, timeRemoveTable);
+	}
+	
+	private void outPrint(String mapType, String op, double totalTime, int numIter, ArrayList<Long> timeTable)
+	{
+		long max = 0;
+		long min = -1;
+		long time = 0;
 		for (int i = 0; i < timeTable.size(); i++)
 		{
-			sum += Math.pow((timeTable.get(i) - totalTime/(totalInput/numIter)), 2);
+			time = timeTable.get(i);
+			if (time > max)
+			{
+				max = time;
+			}
+			if (min == -1)
+			{
+				min = time;
+			}
+			if (time < min)
+			{
+				min = time;
+			}
+			sum += Math.pow((timeTable.get(i) - totalTime/totalInput), 2);
 		}
-		String mean = String.format("%.3f", totalTime/(totalInput/numIter));
-		String stdDiv = String.format("%.3f", (Math.sqrt((sum/(totalInput/numIter)))));
-		outPrint(mapType, op, min, max, mean, stdDiv);
-	}
-	private void outPrint(String mapType, String op, long min, long max, String mean, String stdDiv)
-	{
+		System.out.println("Total Input: " + totalInput);
+		System.out.println("Total Time: " + totalTime);
+		System.out.println("Time Table Size: " + timeTable.size());
+		String mean = String.format("%.3f", totalTime/totalInput);
+		String stdDiv = String.format("%.3f", (Math.sqrt((sum/totalInput))));
 		System.out.println(mapType + ": " + op);
 		System.out.println("--------------------");
 		System.out.println("Min: " + min);

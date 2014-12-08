@@ -23,7 +23,7 @@ public class SimpleHashMap<K extends Comparable<K>, V> implements
 	private double lf = 0.75;
 	private int tableSize;
 	private LinkedList<Entry<K,V>>[] hashMap;
-	private double numEntries;
+	private double arrayElementsUsed;
 	private int nextTableSize;
 	
 	@SuppressWarnings("unchecked")
@@ -31,7 +31,7 @@ public class SimpleHashMap<K extends Comparable<K>, V> implements
 	{
 		tableSize = tableSizes[0];
 		hashMap = new LinkedList[tableSize];
-		numEntries = 0;
+		arrayElementsUsed = 0;
 		nextTableSize = 1;
 	}
 
@@ -115,7 +115,7 @@ public class SimpleHashMap<K extends Comparable<K>, V> implements
 		{
 			curr.add(newEntry);
 //			System.out.println("Put " + key);
-			numEntries++;
+			arrayElementsUsed++;
 		}
 		else
 		{
@@ -131,7 +131,7 @@ public class SimpleHashMap<K extends Comparable<K>, V> implements
 			curr.add(newEntry);
 		}
 //		System.out.println("Migrate? " + numEntries/tableSize + ". Needed: " + lf);
-		if (numEntries/tableSize >= lf)
+		if (arrayElementsUsed/tableSize >= lf)
 		{
 			
 			@SuppressWarnings("unchecked")
@@ -188,7 +188,7 @@ public class SimpleHashMap<K extends Comparable<K>, V> implements
 					curr.remove(i);
 					if (curr.size() == 0)
 					{
-						numEntries--;
+						arrayElementsUsed--;
 					}
 					return oldValue;
 				}
