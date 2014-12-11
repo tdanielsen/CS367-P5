@@ -45,64 +45,49 @@ public class MapBenchmark<K, V>
 		for (int ndx = 0; ndx < numIter; ndx++)
 		{
 			// Basic progress bar
-			System.out.print(String.format("%.2f", 100 * ndx / (float) numIter)
-					+ "% done \r");
-			try
-			{
+//			System.out.print(String.format("%.2f", 100 * ndx / (float) numIter)
+//					+ "% done \r");
+
 			//	map = new SimpleHashMap();
-				BufferedReader in = new BufferedReader(new FileReader(fileName));
-				String line;
-				
-				// Goes through each line
-				while ((line = in.readLine()) != null)
-				{
-					StringTokenizer token = new StringTokenizer(line, " ");
-					Integer key = Integer.parseInt(token.nextToken());
-					String value = token.nextToken();
-					if (ndx == 0)
-					{
-						keyList.add(key);
-					}
-					long startTime = System.currentTimeMillis();
-					map.put(key, value);
-					long elapsed = System.currentTimeMillis() - startTime;
-					timePutTable.add(elapsed);
-					totalPutTime = totalPutTime + elapsed;
-					totalInput++;
-				}
-				in.close();
-			}
-			catch(FileNotFoundException e)
+			BufferedReader in = new BufferedReader(new FileReader(fileName));
+			ArrayList<Entry<Integer,String>> inputs = readIn(in, fileName);
+
+			long startTime = System.currentTimeMillis();
+			for (int i = 0; i < inputs.size(); i++)
 			{
-				System.out.println("File: " + fileName + " Not Found.");
+				map.put(inputs.get(i).getKey(), inputs.get(i).getValue());
 			}
+			long elapsed = System.currentTimeMillis() - startTime;
+			timePutTable.add(elapsed);
+			totalPutTime = totalPutTime + elapsed;
+			totalInput++;
 			//Iterate over all keys in keyList and measure their get times
-			for (int i = 0; i < keyList.size(); i++)
-			{
-				long startTime = System.currentTimeMillis();
-				map.get(keyList.get(i));
-				long elapsed = System.currentTimeMillis() - startTime;
-				timeGetTable.add(elapsed);
-				totalGetTime = totalGetTime + elapsed;
+			startTime = System.currentTimeMillis();
+			for (int i = 0; i < inputs.size(); i++)
+			{			
+				map.get(inputs.get(i).getKey());
 			}
+			elapsed = System.currentTimeMillis() - startTime;
+			timeGetTable.add(elapsed);
+			totalGetTime = totalGetTime + elapsed;
 			//Iterate over all keys in keyList and measure their floorKey times
-			for (int i = 0; i < keyList.size(); i++)
+			startTime = System.currentTimeMillis();
+			for (int i = 0; i < inputs.size(); i++)
 			{
-				long startTime = System.currentTimeMillis();
-				map.floorKey((Integer) keyList.get(i));
-				long elapsed = System.currentTimeMillis() - startTime;
-				timeFloorKeyTable.add(elapsed);
-				totalFloorKeyTime = totalFloorKeyTime + elapsed;
+				map.floorKey(inputs.get(i).getKey());
 			}
+			elapsed = System.currentTimeMillis() - startTime;
+			timeFloorKeyTable.add(elapsed);
+			totalFloorKeyTime = totalFloorKeyTime + elapsed;
 			//Iterate over all keys in keyList and measure their remove times
-			for (int i = 0; i < keyList.size(); i++)
-			{
-				long startTime = System.currentTimeMillis();
-				map.remove((Integer) keyList.get(i));
-				long elapsed = System.currentTimeMillis() - startTime;
-				timeRemoveTable.add(elapsed);
-				totalRemoveTime = totalRemoveTime + elapsed;
+			startTime = System.currentTimeMillis();
+			for (int i = 0; i < inputs.size(); i++)
+			{			
+				map.remove(inputs.get(i).getKey());	
 			}
+			elapsed = System.currentTimeMillis() - startTime;
+			timeRemoveTable.add(elapsed);
+			totalRemoveTime = totalRemoveTime + elapsed;
 		}
 		outPrint(mapType, "put", totalPutTime, numIter, timePutTable);
 		outPrint(mapType, "get", totalGetTime, numIter, timeGetTable);
@@ -132,7 +117,7 @@ public class MapBenchmark<K, V>
 			}
 			sum += Math.pow((timeTable.get(i) - totalTime/totalInput), 2);
 		}
-		String mean = String.format("%.3f", totalTime/totalInput);
+		String mean = String.format("%.3f", totalTime/timeTable.size());
 		String stdDiv = String.format("%.3f", (Math.sqrt((sum/totalInput))));
 		System.out.println(mapType + ": " + op);
 		System.out.println("--------------------");
@@ -141,5 +126,30 @@ public class MapBenchmark<K, V>
 		System.out.println("Mean: " + mean);
 		System.out.println("Std Dev: " + stdDiv);
 		System.out.println();
+	}
+	private ArrayList<Entry<Integer,String>> readIn(BufferedReader in, String fileName) throws NumberFormatException, IOException
+	{
+		ArrayList<Entry<Integer,String>> entryList = new ArrayList<Entry<Integer,String>>();
+		try
+		{	
+			String line;	
+			// Goes through each line
+			while ((line = in.readLine()) != null)
+			{
+				StringTokenizer token = new StringTokenizer(line, " ");
+				Integer key = Integer.parseInt(token.nextToken());
+				String value = token.nextToken();
+				Entry<Integer, String> newEntry = new Entry<Integer, String>(
+						key, value);
+				entryList.add(newEntry);
+			}
+			in.close();
+		}
+		catch (FileNotFoundException e)
+		{
+			System.out.println("File: " + fileName + " Not Found.");
+		}
+		return entryList;
+
 	}
 }
