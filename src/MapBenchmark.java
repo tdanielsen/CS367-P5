@@ -45,8 +45,8 @@ public class MapBenchmark<K, V>
 		for (int ndx = 0; ndx < numIter; ndx++)
 		{
 			// Basic progress bar
-//			System.out.print(String.format("%.2f", 100 * ndx / (float) numIter)
-//					+ "% done \r");
+			System.out.print(String.format("%.2f", 100 * ndx / (float) numIter)
+					+ "% done \r");
 
 			//	map = new SimpleHashMap();
 			BufferedReader in = new BufferedReader(new FileReader(fileName));
@@ -115,10 +115,10 @@ public class MapBenchmark<K, V>
 			{
 				min = time;
 			}
-			sum += Math.pow((timeTable.get(i) - totalTime/totalInput), 2);
+			sum += Math.pow((timeTable.get(i) - totalTime/timeTable.size()), 2);
 		}
 		String mean = String.format("%.3f", totalTime/timeTable.size());
-		String stdDiv = String.format("%.3f", (Math.sqrt((sum/totalInput))));
+		String stdDiv = String.format("%.3f", (Math.sqrt((sum/timeTable.size()))));
 		System.out.println(mapType + ": " + op);
 		System.out.println("--------------------");
 		System.out.println("Min: " + min);
