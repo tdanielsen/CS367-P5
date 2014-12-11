@@ -19,10 +19,10 @@ public class MapBenchmark<K, V>
 	private ArrayList<Long> timeGetTable = new ArrayList<Long>();
 	private ArrayList<Long> timeFloorKeyTable = new ArrayList<Long>();
 	private ArrayList<Long> timeRemoveTable = new ArrayList<Long>();
-	private SimpleMapADT map;
-	private ArrayList<K> keyList = new ArrayList<K>();
+	private SimpleMapADT<Integer, String> map;
+	private ArrayList<Integer> keyList = new ArrayList<Integer>();
 	
-	public MapBenchmark(SimpleMapADT aMap)
+	public MapBenchmark(SimpleMapADT<Integer, String> aMap)
 	{
 		 map = aMap; 
 	}
@@ -30,14 +30,14 @@ public class MapBenchmark<K, V>
 	public static  <K, V> void main(String[] args) throws IOException
 	{
 		int numIter = Integer.parseInt(args[1]); // number of iterations to run
-		SimpleHashMap hash = new SimpleHashMap();
-		SimpleTreeMap tree = new SimpleTreeMap();
+		SimpleHashMap<Integer, String> hash = new SimpleHashMap<Integer, String>();
+		SimpleTreeMap<Integer, String> tree = new SimpleTreeMap<Integer, String>();
 		String fileName = args[0];
-		MapBenchmark hashBenchmark = new MapBenchmark(hash);
-		MapBenchmark treeBenchmark = new MapBenchmark(tree);
+		MapBenchmark<Integer, String> hashBenchmark = new MapBenchmark<Integer, String>(hash);
+		MapBenchmark<Integer, String> treeBenchmark = new MapBenchmark<Integer, String>(tree);
 		hashBenchmark.operation(fileName, numIter, "HashMap", "put");
 
-		//treeBenchmark.operation(fileName, numIter, "TreeMap", "put");
+		treeBenchmark.operation(fileName, numIter, "TreeMap", "put");
 
 	}
 	private void operation(String fileName, int numIter, String mapType, String op) throws IOException
@@ -57,14 +57,14 @@ public class MapBenchmark<K, V>
 				while ((line = in.readLine()) != null)
 				{
 					StringTokenizer token = new StringTokenizer(line, " ");
-					Object key = token.nextElement();
-					Object value = token.nextElement();
+					Integer key = Integer.parseInt(token.nextToken());
+					String value = token.nextToken();
 					if (ndx == 0)
 					{
-						keyList.add((K) key);
+						keyList.add(key);
 					}
 					long startTime = System.currentTimeMillis();
-					map.put((Comparable) key, value);
+					map.put(key, value);
 					long elapsed = System.currentTimeMillis() - startTime;
 					timePutTable.add(elapsed);
 					totalPutTime = totalPutTime + elapsed;
@@ -80,7 +80,7 @@ public class MapBenchmark<K, V>
 			for (int i = 0; i < keyList.size(); i++)
 			{
 				long startTime = System.currentTimeMillis();
-				map.get((Comparable) keyList.get(i));
+				map.get(keyList.get(i));
 				long elapsed = System.currentTimeMillis() - startTime;
 				timeGetTable.add(elapsed);
 				totalGetTime = totalGetTime + elapsed;
@@ -89,7 +89,7 @@ public class MapBenchmark<K, V>
 			for (int i = 0; i < keyList.size(); i++)
 			{
 				long startTime = System.currentTimeMillis();
-				map.floorKey((Comparable) keyList.get(i));
+				map.floorKey((Integer) keyList.get(i));
 				long elapsed = System.currentTimeMillis() - startTime;
 				timeFloorKeyTable.add(elapsed);
 				totalFloorKeyTime = totalFloorKeyTime + elapsed;
@@ -98,7 +98,7 @@ public class MapBenchmark<K, V>
 			for (int i = 0; i < keyList.size(); i++)
 			{
 				long startTime = System.currentTimeMillis();
-				map.remove((Comparable) keyList.get(i));
+				map.remove((Integer) keyList.get(i));
 				long elapsed = System.currentTimeMillis() - startTime;
 				timeRemoveTable.add(elapsed);
 				totalRemoveTime = totalRemoveTime + elapsed;
@@ -132,9 +132,6 @@ public class MapBenchmark<K, V>
 			}
 			sum += Math.pow((timeTable.get(i) - totalTime/totalInput), 2);
 		}
-		System.out.println("Total Input: " + totalInput);
-		System.out.println("Total Time: " + totalTime);
-		System.out.println("Time Table Size: " + timeTable.size());
 		String mean = String.format("%.3f", totalTime/totalInput);
 		String stdDiv = String.format("%.3f", (Math.sqrt((sum/totalInput))));
 		System.out.println(mapType + ": " + op);
