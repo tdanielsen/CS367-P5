@@ -36,171 +36,172 @@ HashMap: put
 --------------------
 Min: 0
 Max: 6
-Mean: 0.180
-Std Dev: 0.712
+Mean: 0.200
+Std Dev: 0.678
 
 HashMap: get
 --------------------
 Min: 0
 Max: 2
 Mean: 0.070
-Std Dev: 0.770
+Std Dev: 0.292
 
 HashMap: floorKey
 --------------------
 Min: 7
-Max: 116
-Mean: 11.880
-Std Dev: 10.934
+Max: 86
+Mean: 10.140
+Std Dev: 7.785
 
 HashMap: remove
 --------------------
 Min: 0
 Max: 2
 Mean: 0.090
-Std Dev: 10.939
+Std Dev: 0.319
 
 TreeMap: put
 --------------------
 Min: 0
 Max: 1
-Mean: 0.250
-Std Dev: 0.433
+Mean: 0.150
+Std Dev: 0.357
 
 TreeMap: get
 --------------------
 Min: 0
-Max: 1
-Mean: 0.100
-Std Dev: 0.527
+Max: 3
+Mean: 0.170
+Std Dev: 0.448
 
 TreeMap: floorKey
 --------------------
 Min: 0
 Max: 1
-Mean: 0.100
-Std Dev: 0.606
+Mean: 0.130
+Std Dev: 0.336
 
 TreeMap: remove
 --------------------
 Min: 0
-Max: 2
-Mean: 0.170
-Std Dev: 0.727
+Max: 1
+Mean: 0.160
+Std Dev: 0.367
 
 run2:
 HashMap: put
 --------------------
 Min: 0
-Max: 8
-Mean: 0.190
-Std Dev: 0.845
+Max: 9
+Mean: 0.270
+Std Dev: 0.968
 
 HashMap: get
 --------------------
 Min: 0
-Max: 3
-Mean: 0.110
-Std Dev: 0.934
+Max: 4
+Mean: 0.220
+Std Dev: 0.540
 
 HashMap: floorKey
 --------------------
-Min: 32
-Max: 93
-Mean: 36.460
-Std Dev: 6.142
+Min: 31
+Max: 127
+Mean: 36.450
+Std Dev: 9.458
 
 HashMap: remove
 --------------------
 Min: 0
-Max: 2
-Mean: 0.140
-Std Dev: 6.153
+Max: 1
+Mean: 0.180
+Std Dev: 0.384
 
 TreeMap: put
 --------------------
 Min: 0
 Max: 1
-Mean: 0.440
-Std Dev: 0.496
+Mean: 0.170
+Std Dev: 0.376
 
 TreeMap: get
 --------------------
 Min: 0
-Max: 3
-Mean: 0.320
-Std Dev: 0.738
+Max: 1
+Mean: 0.150
+Std Dev: 0.357
 
 TreeMap: floorKey
 --------------------
 Min: 0
 Max: 1
-Mean: 0.310
-Std Dev: 0.871
+Mean: 0.190
+Std Dev: 0.392
 
 TreeMap: remove
 --------------------
 Min: 0
-Max: 1
-Mean: 0.220
-Std Dev: 0.964
+Max: 3
+Mean: 0.250
+Std Dev: 0.497
 
 run3:
 HashMap: put
 --------------------
 Min: 0
-Max: 24
-Mean: 0.720
-Std Dev: 2.462
+Max: 19
+Mean: 1.010
+Std Dev: 2.017
 
 HashMap: get
 --------------------
 Min: 0
-Max: 8
-Mean: 0.390
-Std Dev: 2.630
+Max: 5
+Mean: 0.720
+Std Dev: 0.826
 
 HashMap: floorKey
 --------------------
-Min: 894
-Max: 1565
-Mean: 1084.530
-Std Dev: 120.800
+Min: 866
+Max: 1715
+Mean: 1092.590
+Std Dev: 143.201
 
 HashMap: remove
 --------------------
 Min: 0
 Max: 5
-Mean: 0.370
-Std Dev: 120.802
+Mean: 0.660
+Std Dev: 0.777
 
 TreeMap: put
 --------------------
 Min: 0
-Max: 4
-Mean: 1.050
-Std Dev: 1.203
+Max: 3
+Mean: 0.620
+Std Dev: 0.704
 
 TreeMap: get
 --------------------
 Min: 0
-Max: 4
-Mean: 0.610
-Std Dev: 1.437
+Max: 2
+Mean: 0.700
+Std Dev: 0.608
 
 TreeMap: floorKey
 --------------------
 Min: 0
-Max: 4
-Mean: 0.750
-Std Dev: 1.730
+Max: 3
+Mean: 0.770
+Std Dev: 0.705
 
 TreeMap: remove
 --------------------
 Min: 0
-Max: 3
-Mean: 0.560
-Std Dev: 1.892
+Max: 2
+Mean: 0.600
+Std Dev: 0.632
+
 
 3) In this question you will again run TestHash three times, this time using the 
 parameters:
@@ -214,173 +215,173 @@ Answer:
 run4:
 HashMap: put
 --------------------
-Min: 5
-Max: 14
-Mean: 8.200
-Std Dev: 1.020
+Min: 7
+Max: 12
+Mean: 8.230
+Std Dev: 0.947
 
 HashMap: get
 --------------------
 Min: 0
-Max: 17
-Mean: 12.400
-Std Dev: 2.249
+Max: 15
+Mean: 12.370
+Std Dev: 2.038
 
 HashMap: floorKey
 --------------------
 Min: 10
-Max: 61
-Mean: 12.890
-Std Dev: 5.524
+Max: 57
+Mean: 12.550
+Std Dev: 4.651
 
 HashMap: remove
 --------------------
 Min: 0
-Max: 1
-Mean: 0.090
-Std Dev: 5.532
+Max: 2
+Mean: 0.100
+Std Dev: 0.332
 
 TreeMap: put
 --------------------
 Min: 0
 Max: 1
-Mean: 0.030
-Std Dev: 0.171
+Mean: 0.050
+Std Dev: 0.218
 
 TreeMap: get
 --------------------
 Min: 0
 Max: 1
-Mean: 0.040
-Std Dev: 0.260
+Mean: 0.020
+Std Dev: 0.140
 
 TreeMap: floorKey
 --------------------
 Min: 0
-Max: 1
+Max: 2
 Mean: 0.080
-Std Dev: 0.376
+Std Dev: 0.306
 
 TreeMap: remove
 --------------------
 Min: 0
 Max: 1
-Mean: 0.010
-Std Dev: 0.389
+Mean: 0.070
+Std Dev: 0.255
 
 run5:
 HashMap: put
 --------------------
 Min: 9
-Max: 82
-Mean: 70.440
-Std Dev: 7.207
+Max: 76
+Mean: 69.030
+Std Dev: 7.043
 
 HashMap: get
 --------------------
 Min: 2
-Max: 120
-Mean: 107.720
-Std Dev: 16.905
+Max: 119
+Mean: 105.140
+Std Dev: 14.894
 
 HashMap: floorKey
 --------------------
 Min: 44
-Max: 194
-Mean: 158.640
-Std Dev: 22.268
+Max: 182
+Mean: 155.500
+Std Dev: 14.028
 
 HashMap: remove
 --------------------
 Min: 0
 Max: 4
-Mean: 0.200
-Std Dev: 22.275
+Mean: 0.220
+Std Dev: 0.540
 
 TreeMap: put
 --------------------
 Min: 0
-Max: 3
-Mean: 0.510
-Std Dev: 0.574
+Max: 1
+Mean: 0.160
+Std Dev: 0.367
 
 TreeMap: get
 --------------------
 Min: 0
 Max: 1
-Mean: 0.320
-Std Dev: 0.740
+Mean: 0.230
+Std Dev: 0.421
 
 TreeMap: floorKey
 --------------------
 Min: 0
 Max: 1
-Mean: 0.280
-Std Dev: 0.866
+Mean: 0.200
+Std Dev: 0.400
 
 TreeMap: remove
 --------------------
 Min: 0
 Max: 1
-Mean: 0.290
-Std Dev: 0.977
+Mean: 0.200
+Std Dev: 0.400
 
 run6:
 HashMap: put
 --------------------
-Min: 238
-Max: 6494625
-Mean: 85758.100
-Std Dev: 644119.535
+Min: 234
+Max: 22651
+Mean: 21193.650
+Std Dev: 2123.899
 
 HashMap: get
 --------------------
-Min: 2252
-Max: 6505259
-Mean: 103272.220
-Std Dev: 912127.626
+Min: 2271
+Max: 48101
+Mean: 33394.000
+Std Dev: 3738.418
 
 HashMap: floorKey
 --------------------
-Min: 9613
-Max: 6531677
-Mean: 191487.290
-Std Dev: 1242063.046
+Min: 9836
+Max: 82561
+Mean: 62272.430
+Std Dev: 6003.334
 
 HashMap: remove
 --------------------
 Min: 0
-Max: 2006
-Mean: 20.890
-Std Dev: 1242063.062
+Max: 1946
+Mean: 20.430
+Std Dev: 193.528
 
 TreeMap: put
 --------------------
 Min: 0
-Max: 4
-Mean: 0.820
-Std Dev: 1.203
+Max: 3
+Mean: 0.560
+Std Dev: 0.622
 
 TreeMap: get
 --------------------
 Min: 0
-Max: 3
-Mean: 0.520
-Std Dev: 1.427
+Max: 2
+Mean: 0.560
+Std Dev: 0.554
 
 TreeMap: floorKey
 --------------------
 Min: 0
 Max: 3
-Mean: 0.440
-Std Dev: 1.601
+Mean: 0.540
+Std Dev: 0.670
 
 TreeMap: remove
 --------------------
 Min: 0
 Max: 4
-Mean: 0.520
-Std Dev: 1.804
+Mean: 0.620
+Std Dev: 0.660
 
 4) Briefly analyze your results from questions 2 and 3. Consider the 
 following aspects:
@@ -391,11 +392,22 @@ How do these aspects influence the statistics? How do the table statistics
 affect the performance (times)? 
 
 Answer:
+The number of inputs have almost no effect on SimpleTreeMap, but it significantly increases the runtime for SimpleHashMap. SimpleHashMap takes significantly longer for bad input files compared to SimpleHashMap. The table statistics don’t have any affect on the performance because the only thing being timed is the operation itself, nothing else.
 
 5) Using the above data, give the complexity of each SimpleMapADT method for 
 SimpleTreeMap and SimpleHashMap.  Justify your answer with your run results.
 
 Answer:
+SimpleTreeMap:
+put: O(logN) because the run time slowly goes up as the sample size increases.
+get: O(logN) because the run time slowly goes up as the sample size increases.
+floorKey: O(logN) because the run time slowly goes up as the sample size increases.
+remove: O(logN) because the run time slowly goes up as the sample size increases.
+SimpleHashMap:
+put: O(N) because when the array has to expand, the expansion is O(N)
+get: O(1) because the run time is more or less the same and only increases with more collisions.
+floorKey: O(N) because has to do a O(1) operation N times.
+remove: O(1) because the run time is more or less the same and only increases with more collisions 
 
 
  

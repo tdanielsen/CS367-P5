@@ -21,7 +21,6 @@ public class TesterClass
 		System.out.println("* " + curr.get(0));
 		Entry newEntry = new Entry(1, "monkey");
 		SimpleHashMap hash = new SimpleHashMap();
-		System.out.println(hash.size());
 		hash.put(1, "monkey");
 		hash.put(2, "Gut");
 		hash.put(3, "Bot");

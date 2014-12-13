@@ -1,3 +1,16 @@
+///////////////////////////////////////////////////////////////////////////////
+//                   ALL STUDENTS COMPLETE THESE SECTIONS
+// Main Class File:  MapBenchmark.java
+// File:             Entry.java
+// Semester:         CS367 Fall 2014
+//
+// Author:           Tim Danielsen tdanielsen@wisc.edu
+// CS Login:         danielsen
+// Lecturer's Name:  J. Skrentny
+// Lab Section:      N/A
+//
+//////////////////////////// 80 columns wide //////////////////////////////////
+
 /**
  * A map entry (key-value pair).
  */

@@ -1,6 +1,17 @@
-import java.util.List;
+///////////////////////////////////////////////////////////////////////////////
+//                   ALL STUDENTS COMPLETE THESE SECTIONS
+// Main Class File:  MapBenchmark.java
+// File:             SimpleHashMap.java
+// Semester:         CS367 Fall 2014
+//
+// Author:           Tim Danielsen tdanielsen@wisc.edu
+// CS Login:         danielsen
+// Lecturer's Name:  J. Skrentny
+// Lab Section:      N/A
+//
+//////////////////////////// 80 columns wide //////////////////////////////////
+
 import java.util.LinkedList;
-import java.util.Iterator;
 
 /**
  *
@@ -21,11 +32,21 @@ public class SimpleHashMap<K extends Comparable<K>, V> implements
 			3292489, 6584983, 13169977, 26339969, 52679969, 105359939,
 			210719881, 421439783, 842879579, 1685759167 };
 	private double lf = 0.75;
-	private int tableSize;
-	private LinkedList<Entry<K,V>>[] hashMap;
+	private int tableSize; // the current table size
+	private LinkedList<Entry<K, V>>[] hashMap;
+	// keeps track how many elements in the array are used
 	private double arrayElementsUsed;
+	// the index of the next table size to be use from tableSizes
 	private int nextTableSize;
-	
+
+	/**
+	 * Makes a hash map with a starting size of the first size in tableSizes
+	 *
+	 * <p>
+	 * Bugs: None known
+	 *
+	 * @author Tim Danielsen
+	 */
 	@SuppressWarnings("unchecked")
 	public SimpleHashMap()
 	{
@@ -35,19 +56,23 @@ public class SimpleHashMap<K extends Comparable<K>, V> implements
 		nextTableSize = 1;
 	}
 
+	/**
+	 * makes a hash index from a given key that will be used to insert the Entry
+	 * in to the hash map
+	 *
+	 * @param k
+	 *            a key from an Entry
+	 * @return an integer value to be used to store the Entry into the hash map
+	 */
 	private int hash(K k)
 	{
 		int hashIndex = (k.hashCode() % tableSize) - 1;
+		// Handles the case of the hashIndex being negative
 		if (hashIndex < 0)
 		{
 			hashIndex = hashIndex + (tableSize - 1);
 		}
 		return hashIndex;
-	}
-	
-	public int size()
-	{
-		return hashMap.length;
 	}
 
 	/**
@@ -64,22 +89,25 @@ public class SimpleHashMap<K extends Comparable<K>, V> implements
 
 	public V get(K key)
 	{
+		// Checks for valid input
 		if (key == null)
 		{
 			throw new NullPointerException();
 		}
 		int hashKey = hash(key);
-		LinkedList<Entry<K,V>> curr = hashMap[hashKey];
+		LinkedList<Entry<K, V>> curr = hashMap[hashKey];
 		if (curr != null)
 		{
 			for (int i = 0; i < curr.size(); i++)
 			{
 				if (curr.get(i).getKey().equals(key))
 				{
+					// returns the value if key is found
 					return (V) curr.get(i).getValue();
 				}
 			}
 		}
+		// returns null if the key is not in the map
 		return null;
 	}
 
@@ -97,30 +125,34 @@ public class SimpleHashMap<K extends Comparable<K>, V> implements
 	 * @throws NullPointerException
 	 *             if the key or value is null
 	 */
-	
+
 	public V put(K key, V value)
 	{
+		// Checks for valid input
 		if (key == null || value == null)
 		{
 			throw new NullPointerException();
 		}
-		Entry<K,V> newEntry = new Entry<K,V>(key, value);
+		Entry<K, V> newEntry = new Entry<K, V>(key, value);
+		// keeps the previous value if there is one
 		V oldValue = null;
-		LinkedList<Entry<K,V>> curr = hashMap[hash(key)];
+		LinkedList<Entry<K, V>> curr = hashMap[hash(key)];
+		// if the element in the array hasn't been used yet, this makes it able
+		// to be used
 		if (curr == null)
 		{
-			hashMap[hash(key)] = curr = new LinkedList<Entry<K,V>>();
+			hashMap[hash(key)] = curr = new LinkedList<Entry<K, V>>();
 		}
-		if(curr.size() == 0)
+		if (curr.size() == 0)
 		{
 			curr.add(newEntry);
-//			System.out.println("Put " + key);
 			arrayElementsUsed++;
 		}
 		else
 		{
 			for (int i = 0; i < curr.size(); i++)
 			{
+				// Checks if the key is already in the map
 				if (curr.get(i).getKey().equals(key))
 				{
 					oldValue = curr.get(i).getValue();
@@ -130,28 +162,28 @@ public class SimpleHashMap<K extends Comparable<K>, V> implements
 			}
 			curr.add(newEntry);
 		}
-//		System.out.println("Migrate? " + numEntries/tableSize + ". Needed: " + lf);
-		if (arrayElementsUsed/tableSize >= lf)
+		// checks to see if the map needs to grow
+		if (arrayElementsUsed / tableSize >= lf)
 		{
-			
 			@SuppressWarnings("unchecked")
-			LinkedList<Entry<K,V>>[] tempArray = new LinkedList[tableSizes[nextTableSize]];
+			// Makes a temporary array of the next table size
+			LinkedList<Entry<K, V>>[] tempArray = new LinkedList[tableSizes[nextTableSize]];
 			for (int i = 0; i < hashMap.length; i++)
 			{
 				if (hashMap[i] != null)
 				{
+					// moves all non-null entries of the old array into the new
+					// one
 					for (int j = 0; j < hashMap[i].size(); j++)
 					{
-						LinkedList<Entry<K,V>> entries = new LinkedList<Entry<K,V>>();
-						Entry<K,V> migrate = hashMap[i].get(j);
+						LinkedList<Entry<K, V>> entries = new LinkedList<Entry<K, V>>();
+						Entry<K, V> migrate = hashMap[i].get(j);
 						int hashMigrateKey = hash(migrate.getKey());
-//						System.out.println("Migrating " + migrate.getKey());
 						tempArray[hashMigrateKey] = entries;
 						entries.add(migrate);
 					}
 				}
 			}
-//			System.out.println("Done migrating");
 			hashMap = tempArray;
 			tableSize = tableSizes[nextTableSize];
 			nextTableSize++;
@@ -173,11 +205,12 @@ public class SimpleHashMap<K extends Comparable<K>, V> implements
 
 	public V remove(K key)
 	{
+		// Checks for valid input
 		if (key == null)
 		{
 			throw new NullPointerException();
 		}
-		LinkedList<Entry<K,V>> curr = hashMap[hash(key)];
+		LinkedList<Entry<K, V>> curr = hashMap[hash(key)];
 		if (curr != null)
 		{
 			for (int i = 0; i < curr.size(); i++)
@@ -209,6 +242,7 @@ public class SimpleHashMap<K extends Comparable<K>, V> implements
 	 */
 	public K floorKey(K key)
 	{
+		// Checks for valid input
 		if (key == null)
 		{
 			throw new NullPointerException();
@@ -221,6 +255,7 @@ public class SimpleHashMap<K extends Comparable<K>, V> implements
 			{
 				for (int j = 0; j < curr.size(); j++)
 				{
+					// sets the floorKey to a value so it can be tested against
 					if (floorKey == null)
 					{
 						floorKey = curr.get(j).getKey();
@@ -228,6 +263,8 @@ public class SimpleHashMap<K extends Comparable<K>, V> implements
 					if (curr.get(j).getKey().compareTo(key) == 0)
 					{
 						floorKey = curr.get(j).getKey();
+						// Don't need to keep comparing if the key is the same
+						// as the key being looked for
 						return floorKey;
 					}
 					if (curr.get(j).getKey().compareTo(key) < 0
@@ -235,6 +272,8 @@ public class SimpleHashMap<K extends Comparable<K>, V> implements
 					{
 						floorKey = curr.get(j).getKey();
 					}
+					// In case the key being tested wasn't a floor key, this
+					// resets it
 					else
 					{
 						floorKey = null;
